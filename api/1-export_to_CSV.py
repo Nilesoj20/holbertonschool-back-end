@@ -17,27 +17,18 @@ if __name__ == "__main__":
 
     total_tarea = respuesta.json()
     informacion_empleado = respuesta_nombre.json()
-    nombre_empleado = informacion_empleado.get("name")
 
-    tarea_completadas = []
-    for tarea in total_tarea:
-        if tarea["completed"]:
-            tarea_completadas.append(tarea)
-    cantidad_tarea_completada = len(tarea_completadas)
-    cantidad_total_tarea = len(total_tarea)
-
-    formato_archivo = f"{parametro_id}.csv"
+    formato_archivo = parametro_id + ".csv"
     with open(formato_archivo, mode='w', newline="") as file:
-        formato = ["USER_ID",
-                   "USERNAME",
-                   "TASK_COMPLETED_STATUS",
-                   "TASK_TITLE"]
-        writer = csv.DictWriter(file, fieldnames=formato)
-
-        for task in total_tarea:
-            writer.writerow({
-                "USER_ID": f'{parametro_id}',
-                "USERNAME": f'{informacion_empleado.get("username")}',
-                "TASK_COMPLETED_STATUS": f'{task.get("completed")}',
-                "TASK_TITLE": f'{task.get("title")}'
-            })
+        contenedor = []
+        for tarea in total_tarea:
+            formato = [
+                "{}".format(parametro_id),
+                "{}".format(informacion_empleado.get("username")),
+                "{}".format(tarea.get("completed")),
+                "{}".format(tarea.get("title"))
+            ]
+            contenedor.append(formato)
+        escritor_csv = csv.writer(file, quoting=csv.QUOTE_ALL)
+        escritor_csv.writerows(contenedor)
+        print("creado con exito ")
