@@ -26,10 +26,8 @@ if __name__ == "__main__":
     cantidad_tarea_completada = len(tarea_completadas)
     cantidad_total_tarea = len(total_tarea)
 
-    print("Employee {} is done with tasks({}/{}):"
-          .format(nombre_empleado,
-                  cantidad_tarea_completada,
-                  cantidad_total_tarea))
+    print(f"Employee {nombre_empleado} is done \
+with tasks({cantidad_tarea_completada}/{cantidad_total_tarea}):")
 
     for tarea in tarea_completadas:
-        print("\t {}".format(tarea.get("title")))
+        print(f"\t {tarea.get('title')}")
