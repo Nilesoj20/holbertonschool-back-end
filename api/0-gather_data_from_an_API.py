@@ -7,9 +7,6 @@ import sys
 
 if __name__ == '__main__':
     """using REST API Placeholder through parameter"""
-    if len(sys.argv) < 2:
-        print("You must pass an ID parameter")
-        sys.exit()
     parametro_id = sys.argv[1]
 
     url = f"https://jsonplaceholder.typicode.com/todos?userId={parametro_id}"
