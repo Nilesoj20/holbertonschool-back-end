@@ -17,21 +17,27 @@ def inf_empleados():
 
     respuesta = requests.get(url)
     respuesta_nombre = requests.get(url_nombre)
+
     if respuesta.status_code == 200 and respuesta_nombre.status_code == 200:
         total_tarea = respuesta.json()
         informacion_empleado = respuesta_nombre.json()
+
         if not total_tarea or not informacion_empleado:
             print("error in deserialization")
             return
-        tarea_completadas = []
-        for tarea in total_tarea:
-            if tarea["completed"]:
-                tarea_completadas.append(tarea)
-        cantidad_tarea_completada = len(tarea_completadas)
-        cantidad_total_tarea = len(total_tarea)
 
         if "name" in informacion_empleado:
             nombre_empleado = informacion_empleado.get("name")
+
+        tarea_completadas = []
+        for tarea in total_tarea:
+            for clave, valor in tarea.items():
+                if clave == "completed":
+                    if valor is True:
+                        tarea_completadas.append(tarea)
+        cantidad_tarea_completada = len(tarea_completadas)
+        cantidad_total_tarea = len(total_tarea)
+
         print("Employee {} is done with tasks({}/{}):"
               .format(nombre_empleado,
                       cantidad_tarea_completada,
