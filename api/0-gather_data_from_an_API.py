@@ -26,8 +26,7 @@ def inf_empleados():
             print("error in deserialization")
             return
 
-        if "name" in informacion_empleado:
-            nombre_empleado = informacion_empleado.get("name")
+        nombre_empleado = informacion_empleado.get("name")
 
         tarea_completadas = []
         for tarea in total_tarea:
