@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """Export data in CSV format"""
-
+import csv
 import requests
 import sys
-import csv
 
 
 if __name__ == "__main__":
@@ -38,7 +37,7 @@ if __name__ == "__main__":
         for task in total_tarea:
             writer.writerow({
                 "USER_ID": f'{parametro_id}',
-                "USERNAME": f'{nombre_empleado}',
+                "USERNAME": f'{informacion_empleado.get("username")}',
                 "TASK_COMPLETED_STATUS": f'{task.get("completed")}',
                 "TASK_TITLE": f'{task.get("title")}'
             })
