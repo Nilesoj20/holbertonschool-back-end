@@ -2,15 +2,15 @@
 """using REST API to identify a given employee"""
 
 import requests
-from sys import argv, exit
+import sys
 
 
 def inf_empleados():
     """using REST API Placeholder through parameter"""
-    if len(argv) < 2:
+    if len(sys.argv) < 2:
         print("You must pass an ID parameter")
-        exit()
-    parametro_id = int(argv[1])
+        sys.exit()
+    parametro_id = sys.argv[1]
 
     url = f"https://jsonplaceholder.typicode.com/todos?userId={parametro_id}"
     url_nombre = f"https://jsonplaceholder.typicode.com/users/{parametro_id}"
@@ -18,34 +18,27 @@ def inf_empleados():
     respuesta = requests.get(url)
     respuesta_nombre = requests.get(url_nombre)
 
-    if respuesta.status_code == 200 and respuesta_nombre.status_code == 200:
-        total_tarea = respuesta.json()
-        informacion_empleado = respuesta_nombre.json()
+    total_tarea = respuesta.json()
+    informacion_empleado = respuesta_nombre.json()
 
-        if not total_tarea or not informacion_empleado:
-            print("error in deserialization")
-            return
+    nombre_empleado = informacion_empleado.get("name")
 
-        nombre_empleado = informacion_empleado.get("name")
+    tarea_completadas = []
+    for tarea in total_tarea:
+        for clave, valor in tarea.items():
+            if clave == "completed":
+                if valor is True:
+                    tarea_completadas.append(tarea)
+    cantidad_tarea_completada = len(tarea_completadas)
+    cantidad_total_tarea = len(total_tarea)
 
-        tarea_completadas = []
-        for tarea in total_tarea:
-            for clave, valor in tarea.items():
-                if clave == "completed":
-                    if valor is True:
-                        tarea_completadas.append(tarea)
-        cantidad_tarea_completada = len(tarea_completadas)
-        cantidad_total_tarea = len(total_tarea)
+    print("Employee {} is done with tasks({}/{}) :"
+          .format(nombre_empleado,
+                  cantidad_tarea_completada,
+                  cantidad_total_tarea))
 
-        print("Employee {} is done with tasks({}/{}):"
-              .format(nombre_empleado,
-                      cantidad_tarea_completada,
-                      cantidad_total_tarea))
-
-        for tarea in tarea_completadas:
-            print("\t {}".format(tarea.get("title")))
-    else:
-        print("status error")
+    for tarea in tarea_completadas:
+        print("\t {}".format(tarea.get("title")))
 
 
 if __name__ == '__main__':
