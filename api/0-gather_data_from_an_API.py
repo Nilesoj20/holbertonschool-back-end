@@ -5,7 +5,7 @@ import requests
 import sys
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """using REST API Placeholder through parameter"""
     parametro_id = sys.argv[1]
 
@@ -21,14 +21,12 @@ if __name__ == '__main__':
 
     tarea_completadas = []
     for tarea in total_tarea:
-        for clave, valor in tarea.items():
-            if clave == "completed":
-                if valor is True:
-                    tarea_completadas.append(tarea)
+        if tarea["completed"]:
+            tarea_completadas.append(tarea)
     cantidad_tarea_completada = len(tarea_completadas)
     cantidad_total_tarea = len(total_tarea)
 
-    print("Employee {} is done with tasks({}/{}) :"
+    print("Employee {} is done with tasks({}/{}):"
           .format(nombre_empleado,
                   cantidad_tarea_completada,
                   cantidad_total_tarea))
