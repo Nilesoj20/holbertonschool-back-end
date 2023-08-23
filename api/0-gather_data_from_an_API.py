@@ -5,7 +5,7 @@ import requests
 import sys
 
 
-def inf_empleados():
+if __name__ == '__main__':
     """using REST API Placeholder through parameter"""
     if len(sys.argv) < 2:
         print("You must pass an ID parameter")
@@ -20,7 +20,6 @@ def inf_empleados():
 
     total_tarea = respuesta.json()
     informacion_empleado = respuesta_nombre.json()
-
     nombre_empleado = informacion_empleado.get("name")
 
     tarea_completadas = []
@@ -39,7 +38,3 @@ def inf_empleados():
 
     for tarea in tarea_completadas:
         print("\t {}".format(tarea.get("title")))
-
-
-if __name__ == '__main__':
-    inf_empleados()
