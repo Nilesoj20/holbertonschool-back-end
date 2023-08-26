@@ -1,33 +1,23 @@
 #!/usr/bin/python3
-"""using REST API to identify a given employee"""
+"""returns information about his/her TODO list progress"""
 
 import requests
-import sys
+from requests import get
+from sys import argv
 
+if __name__ == '__main__':
+    source = 'https://jsonplaceholder.typicode.com'
+    todoall = source + "/user/{}/todos".format(argv[1])
+    names = source + "/users/{}".format(argv[1])
+    todores = get(todoall).json()
+    nameres = get(names).json()
 
-if __name__ == "__main__":
-    """using REST API Placeholder through parameter"""
-    parametro_id = sys.argv[1]
-
-    url = f"https://jsonplaceholder.typicode.com/todos?userId={parametro_id}"
-    url_nombre = f"https://jsonplaceholder.typicode.com/users/{parametro_id}"
-
-    respuesta = requests.get(url)
-    respuesta_nombre = requests.get(url_nombre)
-
-    total_tarea = respuesta.json()
-    informacion_empleado = respuesta_nombre.json()
-    nombre_empleado = informacion_empleado.get("name")
-
-    tarea_completadas = []
-    for tarea in total_tarea:
-        if tarea["completed"]:
-            tarea_completadas.append(tarea)
-    cantidad_tarea_completada = len(tarea_completadas)
-    cantidad_total_tarea = len(total_tarea)
-
-    print(f"Employee {nombre_empleado} is done \
-with tasks({cantidad_tarea_completada}/{cantidad_total_tarea}):")
-
-    for tarea in tarea_completadas:
-        print(f"\t {tarea.get('title')}")
+    todonum = len(todores)
+    todocomp = len([todo for todo in todores
+                    if todo.get("completed")])
+    name = nameres.get("name")
+    print("Employee {} is done with tasks({}/{}):"
+          .format(name, todocomp, todonum))
+    for todo in todores:
+        if (todo.get("completed")):
+            print("\t {}".format(todo.get("title")))
