@@ -22,10 +22,10 @@ if __name__ == "__main__":
         contenedor = []
         for tarea in total_tarea:
             formato = {
-                    "task": "{}".format(tarea.get("title")),
-                    "completed": "{}".format(tarea.get("completed")),
-                    "username": "{}".format(inf_empleado.get("username"))
-                    }
+                "username": "{}".format(inf_empleado.get("username")),
+                "completed": "{}".format(tarea.get("completed")),
+                "task": "{}".format(tarea.get("title"))
+            }
             contenedor.append(formato)
         dic_contenedor = {"{}".format(parametro_id): contenedor}
         json.dump(dic_contenedor, file)
